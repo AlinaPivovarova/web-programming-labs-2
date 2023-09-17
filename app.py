@@ -18,7 +18,7 @@ def menu():
             <header>
             НГТУ, ФБ, WEB-программирование, часть 2. Спиок лабораторных
             </header>
-            
+
             <ol>
              <a href="/lab1" target="_blank" >Первая лабораторная</a>
             </ol>
@@ -64,11 +64,10 @@ def oak():
         <title>Пивоварова Алина Евгеньевна, лабораторная 1</title>
     </head>
      <body>
-     <link rel="stylesheet" href="'''+ url_for('static', filename='lab1.css') + '''">
+     <link rel="stylesheet" href="'''+ url_for('static', filename='lab1.css')+'''">
      <header>
      НГТУ, ФБ, Лабораторная работа 1
      </header>
-
           <h1>Дуб</h1>
           <img src=''' + url_for('static', filename='oak.jpg') + '''>
     <footer>
