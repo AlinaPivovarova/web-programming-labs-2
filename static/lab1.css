@@ -1,13 +1,12 @@
 body {
     background-color: rgb(149, 106, 107);
-    color: rgb(199, 31, 51);
-    text-align: center;
+    color: rgb(53, 24, 24);
     font-size: 20pt;
     margin: 0px;
 }
 img {
-    width: 800px;
-    text-align: center;
+    width: 600px;
+    padding-left: 500px;
 }
 header {
     background-color: rgb(106, 149, 108);
