@@ -1,0 +1,23 @@
+body {
+    background-color: rgb(149, 106, 107);
+    color: rgb(199, 31, 51);
+    text-align: center;
+    font-size: 20pt;
+    margin: 0px;
+}
+img {
+    width: 800px;
+    text-align: center;
+}
+header {
+    background-color: rgb(106, 149, 108);
+    color: black;
+    padding: 10px;
+    font-size: 16pt;
+}
+footer {
+    background-color: rgb(106, 149, 108);
+    color: black;
+    padding: 10px;
+    font-size: 16pt;
+}
