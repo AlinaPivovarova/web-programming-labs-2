@@ -48,3 +48,49 @@ def pay():
 @lab3.route('/lab3/success')
 def success():
     return render_template('success.html')
+
+
+@lab3.route('/lab3/ticket')
+def ticket():
+    errors = {}
+    familiya = request.args.get('familiya')
+    if familiya == '':
+        errors['familiya'] = 'Заполните поле!'
+
+    name = request.args.get('name')
+    if name == '':
+        errors['name'] = 'Заполните поле!'
+
+    otchestvo = request.args.get('otchestvo')
+    if otchestvo == '':
+        errors['otchestvo'] = 'Заполните поле!'
+    
+    age = request.args.get('age')
+    if age == '':
+        errors['age'] = 'Заполните поле!'
+
+    start = request.args.get('start')
+    if start == '':
+        errors['start'] = 'Заполните поле!'
+
+    finish = request.args.get('finish')
+    if finish == '':
+        errors['finish'] = 'Заполните поле!'
+
+    data = request.args.get('data')
+    if data == '':
+        errors['data'] = 'Заполните поле!'
+
+    bagaz = request.args.get('bagaz')
+
+    tipe = request.args.get('tipe')
+
+    polka = request.args.get('polka')
+
+    return render_template('ticket.html', familiya=familiya, name=name, otchestvo=otchestvo, age=age, 
+    start=start, finish=finish, data=data, bagaz=bagaz, tipe=tipe, polka=polka, errors=errors)
+
+
+@lab3.route('/lab3/bilet')
+def bilet():
+    return render_template('bilet.html')
