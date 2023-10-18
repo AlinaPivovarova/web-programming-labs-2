@@ -15,13 +15,19 @@ def uspeh():
 @lab4.route('/lab4/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template("login.html")
+        return render_template('login.html')
 
     username = request.form.get('username')
+    if username == '':
+        error = 'Не введен логин'
+        return render_template('login.html', error=error, username=username)
     password = request.form.get('password')
+    if password == '':
+        error = 'Не введен пароль'
+        return render_template('login.html', error=error, password=password)
     
     if username == 'alex' and password == '123':
-        return render_template('uspeh.html', username=username)
-
-    error = 'Неверный логин и/или пароль'
-    return render_template('login.html', error=error)
+        return render_template('uspeh.html', username=username, password=password)
+    else:
+        error = 'Неверный логин и/или пароль'
+        return render_template('login.html', error=error, username=username, password=password)
