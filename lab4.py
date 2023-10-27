@@ -38,11 +38,25 @@ def holod():
     if request.method == 'GET':
         return render_template('holod.html')
     
-username = request.form.get('username')
-    if temperature == '':
+    temperature = request.form.get('temperature')
+    error = ''
+    message = ''  # Начальное значение для переменной message
+    snowflakes = ''  # Начальное значение для переменной snowflakes
+    
+    if temperature is None or temperature == '':
         error = 'ошибка: не задана температура'
-    if temperature > -12:
+    elif int(temperature) < -12:
         error = 'не удалось установить температуру — слишком низкое значение'
-    if temperature < -1:
+    elif int(temperature) > -1:
         error = 'не удалось установить температуру — слишком высокое значение'
-        return render_template('login.html', error=error, temperature=temperature)
+    elif -12 <= int(temperature) <= -9:
+        message = f'Установлена температура: {temperature}°C'
+        snowflakes = '❄️❄️❄️'
+    elif -8 <= int(temperature) <= -5:
+        message = f'Установлена температура: {temperature}°C'
+        snowflakes = '❄️❄️'
+    elif -4 <= int(temperature) <= -1:
+        message = f'Установлена температура: {temperature}°C'
+        snowflakes = '❄️'
+    
+    return render_template('holod.html', error=error, temperature=temperature, message=message, snowflakes=snowflakes)
