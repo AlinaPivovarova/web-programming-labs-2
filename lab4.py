@@ -60,3 +60,41 @@ def holod():
         snowflakes = '❄️'
     
     return render_template('holod.html', error=error, temperature=temperature, message=message, snowflakes=snowflakes)
+
+
+@lab4.route('/lab4/zerno', methods=['GET', 'POST'])
+def zerno():
+    if request.method == 'GET':
+        return render_template('zerno.html')
+
+    error = {}
+    zerno = request.form.get('zerno')
+    ves = request.form.get('ves')
+    message = ''
+
+    if ves is None or ves == '':
+        error['ves'] = 'не введен вес'
+    elif float(ves) <= 0:
+        error['ves'] = 'неверное значение веса'
+    elif zerno:
+        if zerno == 'yachmen':
+            price = 12000
+        elif zerno == 'oves':
+            price = 8500
+        elif zerno == 'psheniza':
+            price = 8700
+        elif zerno == 'roj':
+            price = 14000
+
+        total_cost = float(ves) * price
+
+        if float(ves) > 50:
+            total_cost *= 0.9
+            message = 'Заказ успешно сформирован. Вы заказали зерно. Вес: {} т. Сумма к оплате: {} руб. Применена скидка за большой объем.'.format(ves, total_cost)
+        else:
+            message = 'Заказ успешно сформирован. Вы заказали зерно. Вес: {} т. Сумма к оплате: {} руб.'.format(ves, total_cost)
+
+        if float(ves) > 500:
+            message = 'Такого объема сейчас нет в наличии.'
+
+    return render_template('zerno.html', error=error, zerno=zerno, ves=ves, message=message)
