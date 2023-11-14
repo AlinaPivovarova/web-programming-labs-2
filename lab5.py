@@ -60,3 +60,34 @@ def user():
     cur.execute("SELECT * FROM users;")
     result = cur.fetchall()
     return render_template('lab5users.html', users=result)
+
+
+@lab5.route('/lab5/register', methods=['GET', 'POST'])
+def registerPage():
+    errors = []
+
+    if request.method == 'GET':
+        return render_template('register.html', errors=errors)
+
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    if not (username and password):
+        errors.append("Пожалуйста, заполните все поля")
+        print(errors)
+        return render_template('register.html', errors=errors)
+
+    conn = dBConnect()
+    cur = conn.cursor()
+    cur.execute(f"SELECT username FROM users WHERE username = '{username}';")
+
+    if cur.fetchone() is not None:
+        errors.append("Пользователь с данным именем уже существует")
+        dBClose(cur, conn)
+        return render_template('register.html', errors=errors)
+    
+    cur.execute(f"INSERT INTO users (username, password) VALUES ('{username}','{password}');")
+    conn.commit()
+    dBClose(cur, conn)
+
+    return redirect("/lab5/login")
