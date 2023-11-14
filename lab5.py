@@ -18,8 +18,10 @@ def dBClose(cursor,connection):
     cursor.close()
     connection.close()
 
-@lab5.route("/lab5")
+
+@lab5.route("/lab5/")
 def main():
+    visibleUser = 'Anon'
     # Прописываем параметры подключения к БД
     conn = psycopg2.connect(
         host="127.0.0.1",
@@ -42,7 +44,8 @@ def main():
 
     print(result)
 
-    return "go to console"
+    return render_template('lab5.html', username=visibleUser)
+
 
 @lab5.route('/lab5/users')
 def user():
