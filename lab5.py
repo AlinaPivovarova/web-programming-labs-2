@@ -1,4 +1,5 @@
-from flask import redirect, Blueprint, render_template, request
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask import redirect, Blueprint, render_template, request, session
 import psycopg2
 
 lab5 =Blueprint('lab5',__name__)
@@ -21,7 +22,7 @@ def dBClose(cursor,connection):
 
 @lab5.route("/lab5/")
 def main():
-    visibleUser = 'Anon'
+    visibleUser = session.get('username', 'Anon')
     # Прописываем параметры подключения к БД
     conn = psycopg2.connect(
         host="127.0.0.1",
@@ -77,17 +78,57 @@ def registerPage():
         print(errors)
         return render_template('register.html', errors=errors)
 
+    hashPassword = generate_password_hash(password)
+
     conn = dBConnect()
     cur = conn.cursor()
     cur.execute(f"SELECT username FROM users WHERE username = '{username}';")
 
     if cur.fetchone() is not None:
         errors.append("Пользователь с данным именем уже существует")
-        dBClose(cur, conn)
+
+        conn.close()
+        cur.close()
         return render_template('register.html', errors=errors)
     
-    cur.execute(f"INSERT INTO users (username, password) VALUES ('{username}','{password}');")
+    cur.execute(f"INSERT INTO users (username, password) VALUES ('{username}','{hashPassword}');")
     conn.commit()
-    dBClose(cur, conn)
+    conn.close()
+    cur.close()
 
     return redirect("/lab5/login")
+
+
+@lab5.route('/lab5/login', methods=['GET', 'POST'])
+def loginPage():
+    errors = []
+
+    if request.method == 'GET':
+        return render_template('login2.html', errors=errors)
+
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    if not (username and password):
+        errors.append("Пожалуйста, заполните все поля")
+        return render_template('login2.html', errors=errors)
+
+    conn = dBConnect()
+    cur = conn.cursor()
+    cur.execute(f"SELECT id, password FROM users WHERE username = '{username}'")
+    result = cur.fetchone()
+
+    if result is None:
+        errors.append("Неправильный логин или пароль")
+        conn.close()  # Закрытие соединения
+        return render_template('login2.html', errors=errors)
+    
+    userID, hashPassword = result
+    if check_password_hash(hashPassword, password):
+        session['id'] = userID
+        session['username'] = username
+        conn.close()  # Закрытие соединения
+        return redirect("/lab5/")
+    else:
+        errors.append("Неправильный логин или пароль")
+        return render_template("login2.html", errors=errors)
