@@ -57,7 +57,7 @@ def user():
         password = "12345",
         port = 5433
     )
-    cur = conn.cursor()
+    cur = conn.cursor() #создает курсор, привязанный к соединению (conn), которое уже было установлено с базой данных 
     cur.execute("SELECT * FROM users;")
     result = cur.fetchall()
     return render_template('lab5users.html', users=result)
@@ -80,9 +80,10 @@ def registerPage():
 
     hashPassword = generate_password_hash(password)
 
-    conn = dBConnect()
+    conn = dBConnect() #вызывается функция dBConnect() для установления соединения (conn) с базой данных.
     cur = conn.cursor()
-    cur.execute(f"SELECT username FROM users WHERE username = '{username}';")
+    cur.execute(f"SELECT username FROM users WHERE username = '{username}';") #это SQL-запрос, который выбирает поле username из 
+    #таблицы users, где значение этого поля равно заданному username.
 
     if cur.fetchone() is not None:
         errors.append("Пользователь с данным именем уже существует")
