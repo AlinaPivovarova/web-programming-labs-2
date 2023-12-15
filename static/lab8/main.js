@@ -98,3 +98,10 @@ function sendCourse() {
         hideModal(); // закрытие модального окна
     });
 }
+function editCourse(num, course) {
+    document.getElementById('num').value = num;
+    document.getElementById('name').value = course.name;
+    document.getElementById('videos').value = course.videos;
+    document.getElementById('price').value = course.price;
+    showModal();
+}
