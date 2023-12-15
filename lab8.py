@@ -47,3 +47,12 @@ def put_course(course_num):
         abort(404) 
     courses[course_num] = course
     return courses[course_num]
+
+
+#добавление нового курса
+@lab8.route('/lab8/api/courses/', methods=['POST'])
+def add_course():
+    course = request.get_json()
+    course["created_date"] = datetime.now()  # автоматическое заполнение даты создания
+    courses.append(course)
+    return {"num": len(courses)-1}  # возвращение номера нового курса
