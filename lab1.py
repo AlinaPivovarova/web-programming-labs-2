@@ -42,6 +42,9 @@ def menu():
              <ol>
              <a href="/lab7/" target="_blank" >Седьмая лабораторная</a>
             </ol>
+            <ol>
+             <a href="/lab8/" target="_blank" >Восьмая лабораторная</a>
+            </ol>
             <footer>
             &copy; Пивоварова Алина Евгеньевна, ФБИ-14, 3 курс, 2023
             </footer>
