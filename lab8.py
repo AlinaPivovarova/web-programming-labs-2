@@ -46,7 +46,9 @@ def put_course(course_num):
     course = request.get_json()
     if course_num < 0 or course_num >= len(courses):
         abort(404) 
-    courses[course_num] = course
+    date =  courses[course_num]["created_date"]
+    courses[course_num] = course 
+    courses[course_num]["created_date"]=date
     return courses[course_num]
 
 
